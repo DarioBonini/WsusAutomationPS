@@ -1,0 +1,35 @@
+###########  importante - percorso predefinito di download ed esecuzione script ##########
+# impostare la folder
+[String]$PercorsoScript = "C:\_\ddgsms4update"     # percorso in cui si trovano gli script
+Set-Location -Path $PercorsoScript  -PassThru
+sleep 1
+#installo i moduli per dialogare con AD
+Install-WindowsFeature RSAT-AD-PowerShell
+Import-Module -Name ActiveDirectory
+###################################
+
+
+. .\Function.ps1
+. .\Variable.ps1
+
+
+
+# conta numero di computer in specifica OU
+
+$computerlistOUgrpa = Get-ADComputer -Filter * -SearchBase "OU=A,OU=_WSUS_Auto,OU=_SVIL,OU=_Servers,OU=_ITAS_Computers,DC=gruppoitas,DC=local"
+$computerlistOUgrpb = Get-ADComputer -Filter * -SearchBase "OU=B,OU=_WSUS_Auto,OU=_SVIL,OU=_Servers,OU=_ITAS_Computers,DC=gruppoitas,DC=local"
+$computerlistOUgrpa.count
+$computerlistOUgrpb.count
+
+
+
+
+# estraggo i nomi DNS da gruppo o variabile
+$ElencoComputerInGruppoDNS=@()
+
+
+foreach ($computer in $computerlistOUgrpa) {
+$ElencoComputerInGruppoDNS += Get-ADComputer $computer.name -Properties *
+
+}
+$ElencoComputerInGruppoDNS.dnshostname

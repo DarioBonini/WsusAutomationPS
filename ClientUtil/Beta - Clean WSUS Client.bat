@@ -1,0 +1,33 @@
+net stop ddgmonAgent
+net stop wuauserv
+net stop bits
+ping 1.1.1.1
+net stop ddgmonAgent
+net stop wuauserv
+net stop bits
+
+del c:\windows\SoftwareDistribution /q /s
+del c:\windows\WindowsUpdate.log /q /s
+ 
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v PingID /f 
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v AccountDomainSid /f 
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v SusClientId /f  
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v SusClientIDValidation /f 
+
+
+
+net start wuauserv
+net start bits
+net start wuauserv
+net start ddgmonAgent
+ping 1.1.1.1
+
+klist -lh 0 -li 0x3e7 purge
+wuauclt.exe /resetauthorization /detectnow
+wuauclt.exe /detectnow
+wuauclt.exe /reportnow
+echo end
+
+
+
+

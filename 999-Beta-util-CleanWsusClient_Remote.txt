@@ -1,0 +1,20 @@
+Invoke-Command -ComputerName $rempcupdate -ScriptBlock {
+stop-service ddgmonAgent
+stop-service wuauserv
+stop-service bits
+sleep 5
+
+Remove-Item -Path c:\windows\SoftwareDistribution -Recurse -Force
+Remove-Item -Path c:\windows\WindowsUpdate.log -Force
+
+start-service bits
+start-service wuauserv
+start-service ddgmonAgent
+
+sleep 5
+
+klist -lh 0 -li 0x3e7 purge
+wuauclt.exe /resetauthorization /detectnow
+wuauclt.exe /detectnow
+wuauclt.exe /reportnow
+}

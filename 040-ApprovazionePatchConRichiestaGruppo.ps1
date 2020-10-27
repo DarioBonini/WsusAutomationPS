@@ -50,7 +50,7 @@ $global:GGTempElencoPatchPS = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approv
 # filtro per includere i 2008 anche se sono soppressi
 Where-Object  {( ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")  )} | 
 Where-Object  {((($_.UpdatesSupersedingThisUpdate -EQ 'None'))  -or (($_.Products -like 'Windows Server 2008*')))}
-
+}
 sleep 1
 
 write-host "Importo update cache"

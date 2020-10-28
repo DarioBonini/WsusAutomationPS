@@ -1,0 +1,15 @@
+# pulizia di una tipologia di update dal DB (driver)
+
+# attenzione gli aggiornamenti approvati non vengono rimossi: è necessario prima de approvare tutti gli update
+
+$listaupdateapprovati = $WSUSserverPS.getupdates()
+
+$listaupdateapprovati | 
+# Where {$_.UpdateClassificationTitle -eq 'Drivers'} |
+# Where {$_.Title -like "*upgrade*"} |
+ForEach-Object { $WSUSserverPS.DeleteUpdate($_.Id. UpdateID); Write-Host $_.Title removed }
+
+
+
+
+

@@ -43,12 +43,29 @@ sleep 1
 #VerificaAggiornaCacheFile
 if ($global:GGTempElencoPatchPS -eq $null){
 write-host "attendere - sto caricando la lista update - potrebbe essere necessario qualche minuto"
+#
 $global:GGTempElencoPatchPS = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed |  
 # filtro originale
 # Where-Object  {($_.UpdatesSupersedingThisUpdate -EQ 'None') -and ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")}}
+# filtro basato su esclusioni - a volte se la lingua non coincide vengono inclusi update che non ci devono essere
+#si passa per sicurezza ad un filtro basato su inclusioni
+# Where-Object  {( ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")  )} | 
+Where-Object  {( (
+$_.Classification -eq "Critical Updates") -or (
+$_.Classification -eq "Definition Updates") -or  (
+$_.Classification -eq "Security Updates")  -or  (
+$_.Classification -eq "Update Rollups")  -or  (
+$_.Classification -eq "Service Packs") 
+# -and  (
+#$_.Classification -ne "Updates") -and  (
+#$_.Classification -ne "Upgrades") -and  (
+#$_.Classification -ne "Drivers")  -and  (
+#$_.Classification -ne "Feature Packs")  -and  (
+#$_.Classification -ne "Tools") 
+)} |
+#
 #
 # filtro per includere i 2008 anche se sono soppressi
-Where-Object  {( ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")  )} | 
 Where-Object  {((($_.UpdatesSupersedingThisUpdate -EQ 'None'))  -or (($_.Products -like 'Windows Server 2008*')))}
 }
 sleep 1

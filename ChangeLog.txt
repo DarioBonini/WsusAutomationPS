@@ -1,0 +1,4 @@
+Version 27
+04/11/2020
+modificato script 100 disabilitando funzione DeclineSupersededUpdates
+questo è necessario in quanto sui 2008 molti update soppressi sono in realtà necessari se non si possiede il supporto esteso

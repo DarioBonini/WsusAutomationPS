@@ -265,7 +265,8 @@ try{
     try{
         RestartWsusService  
         DeclineExpiredUpdates $Conn
-        DeclineSupersededUpdates $Conn
+		# gli update superseded non vengono declining per problemi di compatibilità con 2008 e supporto esteso
+        #DeclineSupersededUpdates $Conn
         DeleteObsoleteUpdates $Conn
         DeleteInactiveComputers $Conn 
         DeleteOldSync $Conn 

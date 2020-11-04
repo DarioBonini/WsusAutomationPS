@@ -30,7 +30,7 @@ write-host "Creo parametro server PS"
 $WSUSserverPS = Get-WsusServer -Name $NomeHostWsusServer -PortNumber $portNumber 
 sleep 1
 
-write-host "rifuito update scaduti"
+write-host "rifuito update Preview"
 DeclinaPatchPrewiew
 sleep 1
 

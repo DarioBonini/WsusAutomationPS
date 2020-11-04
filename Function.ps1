@@ -113,7 +113,7 @@ Function ApprovaUpdatePerGruppi {
        )
 
 
-# Approva le update Needed ma non Superseded di tutti i gruppi 
+# Approva le update filtrate nella variabile ""$updatesneeded = $global:GGTempElencoPatchPS""
 #$updatesneeded = Get-WsusUpdate -UpdateServer $WSUSserver -Approval AnyExceptDeclined <# -Approval Unapproved >>> modifica per ri-apporvare aggiornamenti gia approvati #> -Status needed | Where-Object  {($_.UpdatesSupersedingThisUpdate -EQ 'None') -and ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")}
 <#
 $update2 = $updatesneeded | Where-Object -Property UpdatesSupersedingThisUpdate -EQ -Value 'None'

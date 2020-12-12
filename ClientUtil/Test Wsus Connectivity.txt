@@ -1,0 +1,3 @@
+http://my-wsus-box:8530/selfupdate/wuident.cab
+
+http://server.fqdn:port/SimpleAuthWebService/SimpleAuth.asmx 

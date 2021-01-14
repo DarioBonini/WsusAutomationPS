@@ -7,7 +7,8 @@ net stop wuauserv
 net stop bits
 
 del c:\windows\SoftwareDistribution /q /s
-del c:\windows\WindowsUpdate.log /q /s
+echo del c:\windows\WindowsUpdate.log /q /s
+del "C:\Program Files\ddgmonAgent\TraceUpdate.log" /q /s
  
 reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v PingID /f 
 reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v AccountDomainSid /f 

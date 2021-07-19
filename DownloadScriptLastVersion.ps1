@@ -7,13 +7,13 @@ Set-Location -Path $plvdb_scriptfolder
 
 ############## Variabili predefiniti funzione download da github
 [string]$UserPreset="DarioBonini"
-[string]$TokenPreset="fb28793262c58d5682497245eab769bc138f08d3"  # Read-only Token
 [string]$OwnerPreset=$UserPreset
 [string]$RepositoryPreset="WsusAutomationPS"
 
 
 # Cancello vecchi script tranne folder persistent
 Get-ChildItem -Exclude _persistent_* | Remove-Item -Confirm:$false -force -Recurse
+
 
 
 function DownloadFilesFromRepo {
@@ -58,11 +58,12 @@ function DownloadFilesFromRepo {
 		Version 1.0 - initial release of DownloadFilesFromRepo
 	#>
 
+
 	Param(
 		[Parameter(Mandatory=$True)]
 		[string]$User,
 
-		[Parameter(Mandatory=$True)]
+		[Parameter(Mandatory=$False)]
 		[string]$Token,
 
 		[Parameter(Mandatory=$True)]
@@ -87,7 +88,7 @@ function DownloadFilesFromRepo {
 	# REST Building
 	$baseUri = "https://api.github.com";
 	$argsUri = "repos/$Owner/$Repository/contents/$Path";
-	$wr = Invoke-WebRequest -Uri ("$baseUri/$argsUri") -Headers $headers;
+	$wr = Invoke-WebRequest -Uri ("$baseUri/$argsUri") # -Headers $headers;
 
 	# Data Handler
 	$objects = $wr.Content | ConvertFrom-Json
@@ -96,7 +97,7 @@ function DownloadFilesFromRepo {
 	
 	# Iterate Directory
 	$directories | ForEach-Object { 
-		DownloadFilesFromRepo -User $User -Token $Token -Owner $Owner -Repository $Repository -Path $_.path -DestinationPath "$($DestinationPath)/$($_.name)"
+		DownloadFilesFromRepo -User $User <# -Token $Token #> -Owner $Owner -Repository $Repository -Path $_.path -DestinationPath "$($DestinationPath)/$($_.name)"
 	}
 
 	# Destination Handler
@@ -123,4 +124,4 @@ function DownloadFilesFromRepo {
 
 
 
-DownloadFilesFromRepo -owner $OwnerPreset -Repository $RepositoryPreset -DestinationPath "$plvdb_scriptfolder"  -User $UserPreset  -Path "" -Token $TokenPreset
+DownloadFilesFromRepo -owner $OwnerPreset -Repository $RepositoryPreset -DestinationPath "$plvdb_scriptfolder"  -User $UserPreset  -Path "" 

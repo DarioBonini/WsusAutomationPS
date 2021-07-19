@@ -1,7 +1,9 @@
 ﻿###########  importante - percorso predefinito di download ed esecuzione script ##########
 # impostare la folder
-Set-Location -Path "C:\_\ddgsms4update"
+$plvdb_scriptfolder = "C:\_\ddgsms4update"
+Set-Location -Path $plvdb_scriptfolder
 ###################################
+
 
 ############## Variabili predefiniti funzione download da github
 [string]$UserPreset="DarioBonini"
@@ -9,19 +11,9 @@ Set-Location -Path "C:\_\ddgsms4update"
 [string]$OwnerPreset=$UserPreset
 [string]$RepositoryPreset="WsusAutomationPS"
 
-############## Variabili usate in 000-UpdateScript
-[string]$localexecutionfolder = get-location
-[string]$FolderVersionCompare = "$localexecutionfolder" +"\_tmp_VersionCheckFolder"
-[string]$FileVersioneAttuale=".\version.txt"
-[string]$FileVersioneDisponibile= $FolderVersionCompare +"\version.txt"
-[int]$VersioneAttuale = 0
-[int]$VersioneDisponibile = 0
-cls
 
-#pulisco file FileVersioneDisponibile
-remove-item $FileVersioneDisponibile -Force
-
-
+# Cancello vecchi script tranne folder persistent
+Get-ChildItem -Exclude _persistent_* | Remove-Item -Confirm:$false -force -Recurse
 
 
 function DownloadFilesFromRepo {
@@ -131,47 +123,4 @@ function DownloadFilesFromRepo {
 
 
 
-function FullDownloadScript {
-
-DownloadFilesFromRepo -owner $OwnerPreset -Repository $RepositoryPreset -DestinationPath "$localexecutionfolder"  -User $UserPreset  -Path "" -Token $TokenPreset
-}
-
-
-### scarico il file di versione dal sito
-
-DownloadFilesFromRepo -owner $OwnerPreset -Repository $RepositoryPreset -DestinationPath "$FolderVersionCompare"  -User $UserPreset  -Path "/Version.txt" -Token $TokenPreset
-
-sleep 1
-
-
-
-
-
-if (Test-Path $fileversioneattuale) {
-$VersioneAttuale=Get-Content $FileVersioneAttuale
-    Write-Host "
-    file di versione presente!
-    Versione Attuale Rilevata =  $VersioneAttuale
-    "}
-
-else {
-    Write-Host "file di versione NON valido
-    "
-# esegui download full - da implementare
-$VersioneAttuale = 0
-}
-
-$VersioneDisponibile = Get-Content $FileVersioneDisponibile
-if ($VersioneAttuale -lt $VersioneDisponibile){
-    FullDownloadScript
-    Write-Host "
-    Versione piu nuova disponibile : $VersioneDisponibile
-    eseguito download di nuova versione in: $localexecutionfolder
-    "
-    }
-if ($VersioneAttuale -ge $VersioneDisponibile){write-host "
-
-    
-    versione aggiorata o (piu nuova??)
-    aggiornameto non necessario"
-    }
+DownloadFilesFromRepo -owner $OwnerPreset -Repository $RepositoryPreset -DestinationPath "$plvdb_scriptfolder"  -User $UserPreset  -Path "" -Token $TokenPreset

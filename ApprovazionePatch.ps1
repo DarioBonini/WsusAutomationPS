@@ -38,7 +38,7 @@ Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 # Load .NET assembly
 [void][reflection.assembly]::LoadWithPartialName("Microsoft.UpdateServices.Administration")
 
-write-host "Connetto al server $NomeHostWsusServer sulla porta numero $portNumber 
+write-host "Connetto al server "$NomeHostWsusServer" sulla porta numero "$portNumber"  
 se questi parametri non sono corretti modificare C:\_\ddgsms4update\bin\variable.ps1 " 
 $UpdateServer = [Microsoft.UpdateServices.Administration.AdminProxy]::getUpdateServer($NomeHostWsusServer,$useSecureConnection,$portNumber)
 sleep 1

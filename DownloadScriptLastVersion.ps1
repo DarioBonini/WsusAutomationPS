@@ -1,5 +1,8 @@
 ﻿###########  importante - percorso predefinito di download ed esecuzione script ##########
 # impostare la folder
+md c:\_
+md C:\_\ddgsms4update
+md C:\_\ddgsms4update\_persistent_
 $plvdb_scriptfolder = "C:\_\ddgsms4update"
 Set-Location -Path $plvdb_scriptfolder
 ###################################

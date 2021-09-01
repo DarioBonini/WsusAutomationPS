@@ -1,11 +1,12 @@
 ﻿###########  importante - percorso predefinito di download ed esecuzione script ##########
 # impostare la folder
-md c:\_
-md C:\_\ddgsms4update
-md C:\_\ddgsms4update\_persistent_
-md C:\_\ddgsms4update\_persistent_\log
-md C:\_\ddgsms4update\_persistent_\report
-md C:\_\ddgsms4update\_persistent_\var
+if ( ! (Test-Path -Path "c:\_")) {md c:\_}
+if ( ! (Test-Path -Path "C:\_\ddgsms4update")) {md C:\_\ddgsms4update}
+if ( ! (Test-Path -Path "C:\_\ddgsms4update\_persistent_")) {md C:\_\ddgsms4update\_persistent_}
+if ( ! (Test-Path -Path "C:\_\ddgsms4update\_persistent_\log")) {md C:\_\ddgsms4update\_persistent_\log}
+if ( ! (Test-Path -Path "C:\_\ddgsms4update\_persistent_\report")) {md C:\_\ddgsms4update\_persistent_\report}
+if ( ! (Test-Path -Path "C:\_\ddgsms4update\_persistent_\var")) {md C:\_\ddgsms4update\_persistent_\var}
+
 $plvdb_scriptfolder = "C:\_\ddgsms4update"
 Set-Location -Path $plvdb_scriptfolder
 ###################################

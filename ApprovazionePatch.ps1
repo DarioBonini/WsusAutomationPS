@@ -35,6 +35,51 @@ Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 
 
 
+# Load .NET assembly
+[void][reflection.assembly]::LoadWithPartialName("Microsoft.UpdateServices.Administration")
+
+write-host "Connetto al server"
+$UpdateServer = [Microsoft.UpdateServices.Administration.AdminProxy]::getUpdateServer($NomeHostWsusServer,$useSecureConnection,$portNumber)
+sleep 1
+
+write-host "Creo Scope"
+$Updatescope = New-Object Microsoft.UpdateServices.Administration.UpdateScope
+sleep 1
+
+write-host "Genero elenco patch via API"
+if ($global:GGTempElencoPatchAPI -eq $null){$global:GGTempElencoPatchAPI = $UpdateServer.GetUpdates($updatescope)}
+$ElencoPatch = $global:GGTempElencoPatchAPI
+sleep 1
+
+write-host "Creo parametro server PS"
+$WSUSserverPS = Get-WsusServer -Name $NomeHostWsusServer -PortNumber $portNumber 
+sleep 1
+
+write-host "rifuito update Preview"
+$countpreview=0
+foreach ($Patch in $ElencoPatch){
+#	if ($u1.IsSuperseded -eq 'True')
+	if ($Patch.Title -like '*Preview*')	{
+		write-host Preview Update : $Patch.Title
+		$Patch.Decline()
+		$countpreview=$countpreview + 1
+	}
+}
+sleep 1
+
+write-host "approvo le licenze"
+$countlicense = 0
+foreach ($Patch in $ElencoPatch){
+	if ($Patch.RequiresLicenseAgreementAcceptance)	{
+		write-host Needs License Agreement Acceptance : $Patch.Title
+		$Patch.AcceptLicenseAgreement()
+		$countlicense=$countlicense + 1
+	}
+}
+write-host Total License Agreement Accepted: $countlicense
+sleep 1
+
+
 
 
 

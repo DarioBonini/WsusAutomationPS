@@ -3,6 +3,9 @@
 md c:\_
 md C:\_\ddgsms4update
 md C:\_\ddgsms4update\_persistent_
+md C:\_\ddgsms4update\_persistent_\log
+md C:\_\ddgsms4update\_persistent_\report
+md C:\_\ddgsms4update\_persistent_\var
 $plvdb_scriptfolder = "C:\_\ddgsms4update"
 Set-Location -Path $plvdb_scriptfolder
 ###################################

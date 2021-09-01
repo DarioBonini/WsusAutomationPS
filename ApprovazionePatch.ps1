@@ -24,7 +24,7 @@ Set-Location -Path $plvdb_scriptfolder
 
 
 $dataodierna = Get-Date -Format "yyyyMMdd-HHmm"
-$transcriptlogfile = $plvdb_scriptfolder+"\ApproveLog"+$dataodierna+".txt"
+$transcriptlogfile = $plvdb_scriptfolder+"_persistent_\log\ApproveLog-"+$dataodierna+".txt"
 Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 
 
@@ -94,5 +94,7 @@ sleep 1
 
 
 
-Write-Host "I Log e le attività eseguite in questo script sono salvate in  "
+Write-Host "
+
+I Log e le attività eseguite in questo script sono salvate in  " $transcriptlogfile
 Stop-Transcript

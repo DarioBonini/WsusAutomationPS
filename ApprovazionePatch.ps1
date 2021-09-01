@@ -22,8 +22,10 @@ Set-Location -Path $plvdb_scriptfolder
 #                2008r2 e precedenti > tutte le patch richieste compreso le sosotuite
 ###########
 
+
 $dataodierna = Get-Date -Format "yyyyMMdd-HHmm"
-Start-Transcript -Path $plvdb_scriptfolder\ApproveLog-$dataodierna.txt -IncludeInvocationHeader
+$transcriptlogfile = $plvdb_scriptfolder+"\ApproveLog"+$dataodierna+".txt"
+Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 
 
 ### carico Variabili e componenti necessari
@@ -47,5 +49,5 @@ Start-Transcript -Path $plvdb_scriptfolder\ApproveLog-$dataodierna.txt -IncludeI
 
 
 
-
+Write-Host "I Log e le attività eseguite in questo script sono salvate in  "
 Stop-Transcript

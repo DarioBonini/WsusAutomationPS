@@ -24,7 +24,7 @@ Set-Location -Path $plvdb_scriptfolder
 
 
 $dataodierna = Get-Date -Format "yyyyMMdd-HHmm"
-$transcriptlogfile = $plvdb_scriptfolder+"_persistent_\log\ApproveLog-"+$dataodierna+".txt"
+$transcriptlogfile = $plvdb_scriptfolder+"\_persistent_\log\ApproveLog-"+$dataodierna+".txt"
 Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 
 
@@ -38,7 +38,8 @@ Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 # Load .NET assembly
 [void][reflection.assembly]::LoadWithPartialName("Microsoft.UpdateServices.Administration")
 
-write-host "Connetto al server"
+write-host "Connetto al server $NomeHostWsusServer sulla porta numero $portNumber 
+se questi parametri non sono corretti modificare C:\_\ddgsms4update\bin\variable.ps1 " 
 $UpdateServer = [Microsoft.UpdateServices.Administration.AdminProxy]::getUpdateServer($NomeHostWsusServer,$useSecureConnection,$portNumber)
 sleep 1
 

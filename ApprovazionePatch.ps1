@@ -130,6 +130,12 @@ $_.Classification -eq "Service Packs")
 # filtro per includere i 2008 anche se sono soppressi
 Where-Object  {((($_.UpdatesSupersedingThisUpdate -EQ 'None'))  -or (($_.Products -like 'Windows Server 2008*')))}
 
+
+if (! $ElencoPatchPS) {write-host "Attenzione!  l'elenco patch non è stato caricato
+eseguire le seguenti verifiche:
+1° aprire Update Services (aka pannello WSUS) e verificare che l'eleco patch sia visibile
+2° lanciare questo script via ISE (come amministratore) e al termine lanciare il seguente comando nella stessa console in cui ha girato lo script e attendere il completamento
+     Get-WsusUpdate -UpdateServer $WSUSserverPS      "}
 $ElencoPatchPS | ft
 
 sleep 1
@@ -148,6 +154,11 @@ $GroupToApprove =  "All Computers"
             Write-Host "Updates approved per il gruppo $Group : " $update.Update.Title -ForegroundColor Yellow 
         } # end ciclo foreach update
 
+Write-Host "patch necessarie
+$ElencoPatchPS.Count 
+
+patch approvate
+$i "
 
 
 

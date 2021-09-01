@@ -33,6 +33,14 @@ Start-Transcript -Path $transcriptlogfile -IncludeInvocationHeader
 . .\bin\function.ps1
 . .\bin\variable.ps1
 
+cls
+write-host "!!!   Attenzione   !!!
+
+Il presente script deve essere lanciato con privilegi amministrativi.
+In caso di errorei accertarsi che ISE o PS siano aperti come admin.
+Verificare anche impostazioni UAC (impostazioni corrette = default = livello 3 )
+" -ForegroundColor DarkYellow
+sleep 2
 
 
 
@@ -75,6 +83,7 @@ foreach ($Patch in $ElencoPatch){
 	}
 }
 write-host Total Update preview rifiutati : $countpreview
+write-host ""
 sleep 1
 
 write-host "approvo le licenze"
@@ -87,11 +96,13 @@ foreach ($Patch in $ElencoPatch){
 	}
 }
 write-host Total License Agreement Accepted: $countlicense
+write-host ""
 sleep 1
 
 
 
-write-host "attendere - sto caricando la lista update via PowerShell - potrebbe essere necessario qualche minuto"
+write-host "attendere - sto caricando la lista update via PowerShell - potrebbe essere necessario qualche minuto
+"
 
 $ElencoPatchPS= Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed |  
 # filtro originale
@@ -119,7 +130,7 @@ $_.Classification -eq "Service Packs")
 # filtro per includere i 2008 anche se sono soppressi
 Where-Object  {((($_.UpdatesSupersedingThisUpdate -EQ 'None'))  -or (($_.Products -like 'Windows Server 2008*')))}
 
-$ElencoPatchPS
+$ElencoPatchPS | ft
 
 sleep 1
 

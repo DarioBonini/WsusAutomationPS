@@ -106,7 +106,14 @@ sleep 1
 write-host "attendere - sto caricando la lista update via PowerShell - potrebbe essere necessario qualche minuto
 "
 
-$ElencoPatchPS = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed |  
+$ElencoPatchPSneeded = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed
+Write-Host "
+totale patch needet e non declined
+" 
+$ElencoPatchPSneeded | Select-Object -First 5
+$ElencoPatchPSneeded.count
+
+$ElencoPatchPS = $ElencoPatchPSneeded |
 # filtro originale
 # Where-Object  {($_.UpdatesSupersedingThisUpdate -EQ 'None') -and ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")}}
 # Where-Object  {( ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")  )} |
@@ -144,7 +151,12 @@ se si tratta del primo utilizzo dello script, eseguire le seguenti verifiche:
 
 4.1° potrebbe essere necessario lanciare lo script piu volte (dipende dalle performance del server)
            " -ForegroundColor Red}
-$ElencoPatchPS | ft
+    
+        else {  $ElencoPatchPS | Select-Object -First 5 | ft
+Write-host "
+Numero patch filtrate in base ai criteri"
+$ElencoPatchPS.count
+               }
 
 sleep 1
 
@@ -164,10 +176,12 @@ $GroupToApprove =  "All Computers"
 
 Write-Host "
 Patch necessarie
+"
 $ElencoPatchPS.Count 
 
-patch approvate
-$i "
+Write-Host  "patch approvate
+"
+$i 
 
 
 

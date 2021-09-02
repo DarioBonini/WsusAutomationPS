@@ -1,8 +1,8 @@
 ﻿#######################
 # Script Approvazione Automatica Update
 # Dario Bonini
-# Versione 2.0.0
-# Data 01-09-2021
+# Versione 2.1.0
+# Data 02-09-2021
 #######################
 
 
@@ -21,6 +21,7 @@ Set-Location -Path $plvdb_scriptfolder
 #          Vegono apporvate tutte le patch richieste e non soppresse per tutti i sistemi tranne:
 #                2008r2 e precedenti > tutte le patch richieste compreso le sosotuite
 #          NOTA: con questa versione eventuali upgrade buld Win 10 devono essere approvati a mano - non gestiti dallo script
+# 2.1.0  > Aggiunto lingua italiana al filtro selezione patch
 ###########
 
 
@@ -176,8 +177,7 @@ $GroupToApprove =  "All Computers"
         } # end ciclo foreach update
 
 Write-Host "####"
-Write-Host "
-Patch necessarie
+Write-Host "Patch necessarie
 "
 $ElencoPatchPS.Count 
 

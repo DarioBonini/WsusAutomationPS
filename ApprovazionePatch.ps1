@@ -107,10 +107,10 @@ write-host "attendere - sto caricando la lista update via PowerShell - potrebbe 
 "
 
 $ElencoPatchPSneeded = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed
-Write-Host "
-totale patch needed e non declined
-" 
+Write-Host "####
+totale patch needed e non declined" 
 $ElencoPatchPSneeded.count
+Write-Host "####"
 $ElencoPatchPSneeded | Select-Object -First 5 | ft
 
 
@@ -125,7 +125,7 @@ $_.Classification -eq "Critical Updates") -or ($_.Classification -eq "Aggiorname
 $_.Classification -eq "Definition Updates") -or  ($_.Classification -eq "Aggiornamenti delle definizioni") -or  (
 $_.Classification -eq "Security Updates")  -or  ($_.Classification -eq "Aggiornamenti della protezione")  -or  (
 $_.Classification -eq "Update Rollups")  -or  ($_.Classification -eq "Raccolta completa di aggiornamenti")  -or  (
-$_.Classification -eq "Service Packs") -or $_.Classification -eq "Service Packs")
+$_.Classification -eq "Service Packs") -or ($_.Classification -eq "Service Packs")
 # -and  (
 # filtro basato su esclusioni - a volte se la lingua non coincide tra WSUS e S.O. vengono inclusi update che non ci devono essere
 # viene quindi usato il precedente filtro basato su INCLUSIONI
@@ -153,7 +153,7 @@ se si tratta del primo utilizzo dello script, eseguire le seguenti verifiche:
 4.1° potrebbe essere necessario lanciare lo script piu volte (dipende dalle performance del server)
            " -ForegroundColor Red}
     
-        else {  $ElencoPatchPS | Select-Object -First 5 | ft
+        else {  #$ElencoPatchPS | Select-Object -First 5 | ft
 Write-host "
 Numero patch filtrate in base ai criteri"
 $ElencoPatchPS.count
@@ -175,6 +175,7 @@ $GroupToApprove =  "All Computers"
             Write-Host "Updates approved per il gruppo $Group : " $update.Update.Title -ForegroundColor Yellow 
         } # end ciclo foreach update
 
+Write-Host "####"
 Write-Host "
 Patch necessarie
 "
@@ -183,6 +184,7 @@ $ElencoPatchPS.Count
 Write-Host  "patch approvate
 "
 $i 
+Write-Host "####"
 
 
 

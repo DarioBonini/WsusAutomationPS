@@ -108,10 +108,11 @@ write-host "attendere - sto caricando la lista update via PowerShell - potrebbe 
 
 $ElencoPatchPSneeded = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed
 Write-Host "
-totale patch needet e non declined
+totale patch needed e non declined
 " 
-$ElencoPatchPSneeded | Select-Object -First 5
 $ElencoPatchPSneeded.count
+$ElencoPatchPSneeded | Select-Object -First 5 | ft
+
 
 $ElencoPatchPS = $ElencoPatchPSneeded |
 # filtro originale
@@ -120,11 +121,11 @@ $ElencoPatchPS = $ElencoPatchPSneeded |
 
 #si passa per sicurezza ad un filtro basato su inclusioni > vedi sotto 
 Where-Object  {( (
-$_.Classification -eq "Critical Updates") -or (
-$_.Classification -eq "Definition Updates") -or  (
-$_.Classification -eq "Security Updates")  -or  (
-$_.Classification -eq "Update Rollups")  -or  (
-$_.Classification -eq "Service Packs") 
+$_.Classification -eq "Critical Updates") -or ($_.Classification -eq "Aggiornamenti critici") -or (
+$_.Classification -eq "Definition Updates") -or  ($_.Classification -eq "Aggiornamenti delle definizioni") -or  (
+$_.Classification -eq "Security Updates")  -or  ($_.Classification -eq "Aggiornamenti della protezione")  -or  (
+$_.Classification -eq "Update Rollups")  -or  ($_.Classification -eq "Raccolta completa di aggiornamenti")  -or  (
+$_.Classification -eq "Service Packs") -or $_.Classification -eq "Service Packs")
 # -and  (
 # filtro basato su esclusioni - a volte se la lingua non coincide tra WSUS e S.O. vengono inclusi update che non ci devono essere
 # viene quindi usato il precedente filtro basato su INCLUSIONI

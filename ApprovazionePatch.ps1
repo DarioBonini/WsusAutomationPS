@@ -13,7 +13,7 @@ Set-Location -Path $plvdb_scriptfolder
 ###################################
 
 
-########### revisioni
+########### revisioni ##########
 #
 # 2.0.0  > Riscrittura e ottimizzazioni
 #          La procedura di approvazione è automatica 

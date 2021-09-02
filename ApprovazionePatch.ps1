@@ -63,6 +63,8 @@ sleep 1
 write-host "
 Genero elenco patch via API"
 $ElencoPatch = $UpdateServer.GetUpdates($updatescope)
+Write-Host "Di seguito un elenco di 10 patch al solo scopo di verifica e debug
+elenco completo consultabile con la variabile `$elencopatch" 
 $ElencoPatch | Select-Object -First 10 |ft Title,MsrcSeverity,UpdateClassificationTitle,IsApproved,IsDeclined
 sleep 1
 
@@ -104,7 +106,7 @@ sleep 1
 write-host "attendere - sto caricando la lista update via PowerShell - potrebbe essere necessario qualche minuto
 "
 
-$ElencoPatchPS= Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed |  
+$ElencoPatchPS = Get-WsusUpdate -UpdateServer $WSUSserverPS -Approval AnyExceptDeclined -Status needed |  
 # filtro originale
 # Where-Object  {($_.UpdatesSupersedingThisUpdate -EQ 'None') -and ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")}}
 # Where-Object  {( ($_.Classification -ne "Upgrades") -and ($_.Classification -ne "Drivers") -and  ($_.Classification -ne "Updates")  )} |
@@ -130,12 +132,18 @@ $_.Classification -eq "Service Packs")
 # filtro per includere i 2008 anche se sono soppressi
 Where-Object  {((($_.UpdatesSupersedingThisUpdate -EQ 'None'))  -or (($_.Products -like 'Windows Server 2008*')))}
 
-
+## debug manuale raccolta patch via PS
 if (! $ElencoPatchPS) {write-host "Attenzione!  l'elenco patch non è stato caricato
-eseguire le seguenti verifiche:
-1° aprire Update Services (aka pannello WSUS) e verificare che l'eleco patch sia visibile
-2° lanciare questo script via ISE (come amministratore) e al termine lanciare il seguente comando nella stessa console in cui ha girato lo script e attendere il completamento
-     Get-WsusUpdate -UpdateServer $WSUSserverPS      "}
+se si tratta del primo utilizzo dello script, eseguire le seguenti verifiche:
+1° aprire Update Services (aka pannello patch WSUS) e verificare che l'eleco patch sia visibile
+2° riavviare il server Wsus
+3° eseguire WSUS Server cleanup wizard
+4° lanciare questo script via ISE (come amministratore) e al termine lanciare il seguente comando nella stessa console in cui ha girato lo script e attendere il completamento
+
+     Get-WsusUpdate -UpdateServer `$WSUSserverPS -Approval AnyExceptDeclined -Status needed
+
+4.1° potrebbe essere necessario lanciare lo script piu volte (dipende dalle performance del server)
+           " -ForegroundColor Red}
 $ElencoPatchPS | ft
 
 sleep 1
@@ -154,7 +162,8 @@ $GroupToApprove =  "All Computers"
             Write-Host "Updates approved per il gruppo $Group : " $update.Update.Title -ForegroundColor Yellow 
         } # end ciclo foreach update
 
-Write-Host "patch necessarie
+Write-Host "
+Patch necessarie
 $ElencoPatchPS.Count 
 
 patch approvate

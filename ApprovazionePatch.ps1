@@ -195,3 +195,4 @@ Write-Host "
 
 I Log e le attività eseguite in questo script sono salvate in  " $transcriptlogfile
 Stop-Transcript
+pause

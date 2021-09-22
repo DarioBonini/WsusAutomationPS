@@ -1,16 +1,9 @@
 ﻿#######################
 # Script Approvazione Automatica Update
 # Dario Bonini
-# Versione 2.1.0
-# Data 02-09-2021
+# Versione (vedi sotto ultima revisione)
+# Data 22-09-2021
 #######################
-
-
-###########  importante - percorso predefinito di download ed esecuzione script ##########
-# impostare la folder
-$plvdb_scriptfolder = "C:\_\ddgsms4update"
-Set-Location -Path $plvdb_scriptfolder
-###################################
 
 
 ########### revisioni ##########
@@ -18,12 +11,19 @@ Set-Location -Path $plvdb_scriptfolder
 # 2.0.0  > Riscrittura e ottimizzazioni
 #          La procedura di approvazione è automatica 
 #          le patche vengono approvate per tutti i computer (in questa versione non è possibile scegliere il gruppo di applicazione)
-#          Vegono apporvate tutte le patch richieste e non soppresse per tutti i sistemi tranne:
-#                2008r2 e precedenti > tutte le patch richieste compreso le sosotuite
-#          NOTA: con questa versione eventuali upgrade buld Win 10 devono essere approvati a mano - non gestiti dallo script
+#          Vegono approvate tutte le patch richieste e non soppresse per tutti i sistemi tranne:
+#                2008r2 e precedenti > tutte le patch richieste compreso le sostituite
+#          NOTA: con questa versione eventuali upgrade build Win 10 devono essere approvati a mano - non gestiti dallo script
 # 2.1.0  > Aggiunto lingua italiana al filtro selezione patch
+# 2.1.1  > Minor Fix
 ###########
 
+
+###########  importante - percorso predefinito di download ed esecuzione script ##########
+# impostare la folder
+$plvdb_scriptfolder = "C:\_\ddgsms4update"
+Set-Location -Path $plvdb_scriptfolder
+###################################
 
 $dataodierna = Get-Date -Format "yyyyMMdd-HHmm"
 $transcriptlogfile = $plvdb_scriptfolder+"\_persistent_\log\ApproveLog-"+$dataodierna+".txt"
@@ -177,12 +177,12 @@ $GroupToApprove =  "All Computers"
         } # end ciclo foreach update
 
 Write-Host "####"
-Write-Host "Patch necessarie
-"
+Write-Host "Patch necessarie"
 $ElencoPatchPS.Count 
 
-Write-Host  "patch approvate
-"
+Write-Host  "
+
+Patch approvate"
 $i 
 Write-Host "####"
 

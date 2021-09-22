@@ -21,6 +21,9 @@ Set-Location -Path $plvdb_scriptfolder
 # Cancello vecchi script tranne folder persistent
 Get-ChildItem -Exclude _persistent_* | Remove-Item -Confirm:$false -force -Recurse
 
+
+# aggiunta per permettere a vesrsioni piu vecchie di PS di utilizzare canale ssl corretto
+# http://vcloud-lab.com/entries/powershell/powershell-invoke-webrequest-the-request-was-aborted-could-not-create-ssl-tls-secure-channel
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
 [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
 

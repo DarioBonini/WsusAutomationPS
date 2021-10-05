@@ -1,4 +1,4 @@
-@echo off
+echo @echo off
 
 :: Created by: Shawn Brink
 :: Modificato by Dario Bonini 05/10/2021
@@ -22,6 +22,8 @@ net stop appidsvc
 sc config cryptsvc  start=disabled
 net stop cryptsvc 
 
+:: Checking and Stopping the Windows Update services
+set b=0
 goto bits
 
 :: Prompt to Run as administrator
@@ -31,8 +33,6 @@ If "%1"=="%Variable%" (echo. &echo. Please right-click on the file and select &e
 cmd /u /c echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "%~0", "%Variable%", "", "runas", 1 > "%temp%\getadmin.vbs"&cscript //nologo "%temp%\getadmin.vbs" & exit
 :(Privileges_got)
 
-:: Checking and Stopping the Windows Update services
-set b=0
 
 :bits
 set /a b=%b%+1

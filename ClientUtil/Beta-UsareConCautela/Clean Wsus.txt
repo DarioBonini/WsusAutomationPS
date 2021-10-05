@@ -1,6 +1,7 @@
 @echo off
 
 :: Created by: Shawn Brink
+:: Modificato by Dario Bonini 05/10/2021
 :: Created on: October 1, 2015
 :: Updated on: March 8, 2021
 :: Tutorial: https://www.tenforums.com/tutorials/24742-reset-windows-update-windows-10-a.html

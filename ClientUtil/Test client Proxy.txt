@@ -1,0 +1,34 @@
+###da Chrome
+
+chrome://net-internals/#proxy
+ 
+nuove versioni
+chrome://net-export/
+
+
+
+
+######## test cmd
+ping wpad
+ping wpad.<primary dns suffix>
+
+http://wpad.<suffix>/wpad.dat
+
+
+
+####### regedit
+reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings" | find /i "proxyserver"
+reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Wpad" /s | find /i "WpadDetectedURL"
+reg query "KEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections"
+echo reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections" /v DefaultConnectionSettings
+
+
+
+######### cmd
+Windows Vista or later:
+netsh winhttp show proxy
+
+Windows XP or earlier:
+netsh diag connect ieproxy
+
+sc query winhttpautoproxysvc

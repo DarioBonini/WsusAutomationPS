@@ -32,3 +32,8 @@ Windows XP or earlier:
 netsh diag connect ieproxy
 
 sc query winhttpautoproxysvc
+
+
+
+################ riferimenti
+https://help.endian.com/hc/it/articles/360011796214-How-to-use-WPAD-Web-Proxy-Auto-Discovery-Protocol-

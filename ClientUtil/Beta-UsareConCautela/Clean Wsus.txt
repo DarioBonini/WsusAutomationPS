@@ -22,6 +22,7 @@ net stop appidsvc
 sc config cryptsvc  start=disabled
 net stop cryptsvc 
 
+goto bits
 
 :: Prompt to Run as administrator
 Set "Variable=0" & if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs"

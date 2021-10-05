@@ -1,0 +1,116 @@
+## sc config wuauserv start=auto > $null 2>$null
+## sc config wuauserv start=disabled 
+## sc queryex wuauserv
+## taskkill /PID xxx /F
+
+
+############ stoppo tutti i servizi ####################
+sc config ddgmonAgent start=disabled 
+net stop ddgmonAgent
+
+sc config wuauserv start=disabled 
+net stop wuauserv
+
+sc config bits start=disabled 
+net stop bits
+
+sc config appidsvc start=disabled
+net stop appidsvc
+
+sc config cryptsvc  start=disabled
+net stop cryptsvc 
+
+#######################################################
+
+
+echo from https://www.tenforums.com/tutorials/24742-reset-windows-update-windows-10-a.html
+:Reset
+Ipconfig /flushdns
+del /s /q /f "%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat" 
+del /s /q /f "%ALLUSERSPROFILE%\Microsoft\Network\Downloader\qmgr*.dat"
+del /s /q /f "%SYSTEMROOT%\Logs\WindowsUpdate\*"
+
+if exist "%SYSTEMROOT%\winsxs\pending.xml.bak" del /s /q /f "%SYSTEMROOT%\winsxs\pending.xml.bak" 
+if exist "%SYSTEMROOT%\winsxs\pending.xml" ( 
+    takeown /f "%SYSTEMROOT%\winsxs\pending.xml" 
+    attrib -r -s -h /s /d "%SYSTEMROOT%\winsxs\pending.xml" 
+    ren "%SYSTEMROOT%\winsxs\pending.xml" pending.xml.bak 
+) 
+
+if exist "%SYSTEMROOT%\SoftwareDistribution.bak" rmdir /s /q "%SYSTEMROOT%\SoftwareDistribution.bak"
+if exist "%SYSTEMROOT%\SoftwareDistribution" ( 
+    attrib -r -s -h /s /d "%SYSTEMROOT%\SoftwareDistribution" 
+    ren "%SYSTEMROOT%\SoftwareDistribution" SoftwareDistribution.bak 
+) 
+
+if exist "%SYSTEMROOT%\system32\Catroot2.bak" rmdir /s /q "%SYSTEMROOT%\system32\Catroot2.bak" 
+if exist "%SYSTEMROOT%\system32\Catroot2" ( 
+    attrib -r -s -h /s /d "%SYSTEMROOT%\system32\Catroot2" 
+    ren "%SYSTEMROOT%\system32\Catroot2" Catroot2.bak 
+) 
+
+:: Reset Windows Update policies
+reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+gpupdate /force
+
+
+:: Reset the BITS service and the Windows Update service to the default security descriptor
+sc.exe sdset bits D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
+
+sc.exe sdset wuauserv D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
+
+
+
+
+
+
+
+
+
+
+
+
+del c:\windows\SoftwareDistribution /q /s
+echo del c:\windows\WindowsUpdate.log /q /s
+del "C:\Program Files\ddgmonAgent\TraceUpdate.log" /q /s
+del "%systemroot%\SoftwareDistribution\DataStore\Logs\edb.log" /q /s
+ 
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v PingID /f 
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v AccountDomainSid /f 
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v SusClientId /f  
+reg Delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate /v SusClientIDValidation /f 
+
+
+klist -lh 0 -li 0x3e7 purge
+
+
+############ avvio tutti i servizi ####################
+sc config cryptsvc start=auto
+net start cryptsvc
+
+sc config appidsvc start=auto
+net start appidsvc
+
+sc config bits start=auto
+net start bits
+
+sc config wuauserv start=auto
+net start wuauserv
+
+sc config ddgmonAgent start=auto
+net start ddgmonAgent
+
+######################################################
+
+klist -lh 0 -li 0x3e7 purge
+wuauclt.exe /resetauthorization /detectnow
+wuauclt.exe /detectnow
+wuauclt.exe /reportnow
+echo end
+
+
+
+
